@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraStudy - Smart AI Study Companion</title>
+  <meta name="description" content="AuraStudy - Responsive study dashboard. Upload study pics to keep your streak, strike off completed days, and boost exam performance.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-atmosphere="sunrise">
+  <!-- Dynamic Ambient Floating Aura Orbs (Background Glow) -->
+  <div class="app-aura-container" id="appAuraContainer">
+    <div class="aura-glow-orb orb-1"></div>
+    <div class="aura-glow-orb orb-2"></div>
+    <div class="aura-glow-orb orb-3"></div>
+  </div>
+
+  <div class="aurastudy-app-root not-authenticated">
+
+    <!-- ================= AUTH VIEWPORT (LOGIN & SIGN UP PAGE) ================= -->
+    <section class="auth-viewport" id="authViewport">
+      <div class="auth-card-glass">
+        <!-- Brand Header -->
+        <div class="auth-brand">
+          <div class="auth-logo-badge">✨</div>
+          <h2 class="auth-title">Welcome to AuraStudy</h2>
+          <p class="auth-subtitle">Smart AI study companion, streak accountability & academic planner</p>
+        </div>
+
+        <!-- Auth Tabs: Sign In / Create Account -->
+        <div class="auth-tab-switch" role="tablist">
+          <button class="auth-switch-btn active" id="tabBtnSignIn" type="button">Sign In</button>
+          <button class="auth-switch-btn" id="tabBtnSignUp" type="button">Create Account</button>
+        </div>
+
+        <!-- Sign In Form -->
+        <form class="auth-form" id="signInForm">
+          <div class="form-group">
+            <label for="inputLoginEmail" class="form-label">Student Email / Username</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉️</span>
+              <input type="email" id="inputLoginEmail" class="form-input" placeholder="e.g. alex.johnson@stanford.edu" required value="alex.johnson@stanford.edu">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label-row">
+              <label for="inputLoginPassword" class="form-label">Password</label>
+              <button type="button" class="forgot-pass-link" id="btnForgotPass">Forgot?</button>
+            </div>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="inputLoginPassword" class="form-input" placeholder="Enter password" required value="studyhard2026">
+              <button type="button" class="password-toggle-btn" id="btnTogglePassword" title="Show/Hide Password">👁️</button>
+            </div>
+          </div>
+
+          <div class="form-options-row">
+            <label class="remember-checkbox-label">
+              <input type="checkbox" id="rememberMeCheckbox" checked>
+              <span>Keep me signed in on this browser</span>
+            </label>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="btnSignInSubmit">
+            <span>✨ Sign In to AuraStudy</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+
+          <!-- Quick 1-Click Demo Profiles for Rapid Testing -->
+          <div class="demo-logins-box">
+            <span class="demo-label">⚡ One-Click Instant Demo Login</span>
+            <div class="demo-btns-row">
+              <button type="button" class="demo-student-chip" id="btnDemoAlex" title="Log in as Alex (Pre-Med)">
+                <img src="assets/alex_avatar.jpg" alt="Alex">
+                <div class="demo-chip-text">
+                  <strong>Alex Johnson</strong>
+                  <span>Pre-Med • Stanford</span>
+                </div>
+              </button>
+              <button type="button" class="demo-student-chip" id="btnDemoMaya" title="Log in as Maya (Computer Science)">
+                <img src="assets/maya_avatar.jpg" alt="Maya">
+                <div class="demo-chip-text">
+                  <strong>Maya Lin</strong>
+                  <span>CompSci • MIT</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Create Account Form (Initially Hidden) -->
+        <form class="auth-form" id="signUpForm" style="display: none;">
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="inputRegName" class="form-label">Full Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">👤</span>
+                <input type="text" id="inputRegName" class="form-input" placeholder="e.g. Leo Parker" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputRegGradYear" class="form-label">Graduation Year</label>
+              <div class="input-wrap">
+                <span class="input-icon">🎓</span>
+                <input type="text" id="inputRegGradYear" class="form-input" placeholder="e.g. 2027" required value="2027">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="inputRegUniversity" class="form-label">University / School</label>
+              <div class="input-wrap">
+                <span class="input-icon">🏛️</span>
+                <input type="text" id="inputRegUniversity" class="form-input" placeholder="e.g. Stanford University" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputRegMajor" class="form-label">Academic Major / Track</label>
+              <div class="input-wrap">
+                <span class="input-icon">📚</span>
+                <input type="text" id="inputRegMajor" class="form-input" placeholder="e.g. Neuroscience" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputRegEmail" class="form-label">Student Email</label>
+            <div class="input-wrap">
+              <span class="input-icon">✉️</span>
+              <input type="email" id="inputRegEmail" class="form-input" placeholder="e.g. student@university.edu" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputRegPassword" class="form-label">Create Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="inputRegPassword" class="form-input" placeholder="Minimum 6 characters" required>
+            </div>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="btnSignUpSubmit">
+            <span>🚀 Create Account & Launch Dashboard</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </form>
+
+        <!-- Footer / Guest Bypass -->
+        <div class="auth-card-footer">
+          <span class="auth-footer-badge">🔒 100% Private & Locally Saved</span>
+          <button type="button" class="auth-bypass-btn" id="btnBypassGuest">Continue as Guest Explorer →</button>
+        </div>
+      </div>
+    </section>
+
+    
+    <!-- Top Responsive Navigation Bar -->
+    <header class="app-navbar" id="appNavbar">
+      <div class="navbar-container">
+        <!-- Brand Logo & Greeting -->
+        <div class="nav-brand-group">
+          <div class="brand-logo-icon">✨</div>
+          <div class="brand-title-wrap">
+            <h1 class="brand-name">AuraStudy</h1>
+            <span class="brand-subtext" id="navbarGreeting">Saturday, Oct 17 • Good Evening, Alex!</span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Tabs (Hidden on mobile, uses bottom taskbar) -->
+        <nav class="desktop-nav-tabs" id="desktopNavTabs" aria-label="Desktop Navigation">
+          <button class="desk-tab-btn active" data-tab="tabHome" id="deskTabHome">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Dashboard
+          </button>
+          <button class="desk-tab-btn" data-tab="tabSchedule" id="deskTabSchedule">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            Schedule & Exams
+          </button>
+          <button class="desk-tab-btn" data-tab="tabAnalytics" id="deskTabAnalytics">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            Insights & Focus
+          </button>
+          <button class="desk-tab-btn" data-tab="tabProfile" id="deskTabProfile">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Profile & Goals
+          </button>
+        </nav>
+
+        <!-- Right Quick Actions & Settings -->
+        <div class="nav-actions-group">
+          <!-- Quick Camera Trigger on Desktop -->
+          <button class="quick-camera-btn" id="btnQuickCamera" title="Upload Study Pic to Continue Streak">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <span>Upload Study Pic</span>
+          </button>
+
+          <!-- Atmosphere Picker -->
+          <div class="atmosphere-picker-wrapper">
+            <select id="atmosphereSelect" class="atmosphere-dropdown" title="Select Study Atmosphere">
+              <option value="sunrise" selected>🌅 Sunrise Aura</option>
+              <option value="midnight">🌌 Midnight Library</option>
+              <option value="zen">🌿 Zen Matcha</option>
+              <option value="cafe">☕ Cozy Study Desk</option>
+            </select>
+          </div>
+
+          <!-- Sound Toggle -->
+          <button class="icon-toggle-btn" id="btnSoundToggle" title="Toggle Sound Effects">
+            <span id="soundIcon">🔊</span>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button class="icon-toggle-btn" id="btnThemeToggle" title="Toggle Light/Dark Theme">
+            <span id="themeIcon">☀️</span>
+          </button>
+
+          <!-- Edit Profile Quick Action -->
+          <button class="icon-toggle-btn" id="btnNavEditProfile" title="Edit Profile Details">
+            <span>✏️</span>
+          </button>
+
+          <!-- Sign Out / Switch Account -->
+          <button class="icon-toggle-btn" id="btnNavLogout" title="Sign Out / Switch Account">
+            <span>🚪</span>
+          </button>
+
+          <!-- Avatar / Profile Quick Link -->
+          <div class="navbar-avatar-container" id="navAvatarTrigger" title="View Profile">
+            <img src="assets/alex_avatar.jpg" alt="Alex's Avatar" class="user-avatar" id="headerAvatar">
+            <span class="avatar-ring"></span>
+            <span class="avatar-online-dot"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Viewport -->
+    <main class="dashboard-viewport" id="dashboardViewport">
+      
+      <!-- ================= TAB 1: DASHBOARD / HOME ================= -->
+      <section class="tab-page active-tab" id="tabHome">
+        
+        <!-- Mobile View Header (Only displays on phone screens) -->
+        <div class="mobile-greeting-header">
+          <div class="mobile-titles">
+            <h2 class="mobile-brand-title">AuraStudy</h2>
+            <p class="greeting-subtitle" id="greetingSubtitle">Saturday, Oct 17 • Good Evening, Alex!</p>
+          </div>
+          <div class="avatar-container" id="avatarTriggerMobile" title="View Profile">
+            <img src="assets/alex_avatar.jpg" alt="Alex" class="user-avatar">
+            <span class="avatar-ring"></span>
+            <span class="avatar-online-dot"></span>
+          </div>
+        </div>
+
+        <!-- 1. STREAK DISPLAY (Hero Banner across top of dashboard) -->
+        <article class="streak-card streak-card-top" id="streakCard" role="button" tabindex="0" title="Click to view streak milestones & rewards">
+          <div class="streak-flame-container">
+            <span class="flame-icon animated-flame" id="flameIcon">🔥</span>
+            <span class="flame-particles"></span>
+          </div>
+
+          <div class="streak-content">
+            <div class="streak-top-header">
+              <h3 class="streak-title" id="streakTitle">Start Your Study Streak Today!</h3>
+              <span class="streak-status-badge pending" id="streakStatusBadge">Pending First Pic 📸</span>
+            </div>
+            <div class="streak-badge-row">
+              <span class="streak-days" id="streakDaysCount">0 Days 🔥</span>
+              <span class="streak-pill-tag">New Streak!</span>
+            </div>
+            <!-- Streak tracker dots -->
+            <div class="streak-mini-week">
+              <span class="streak-day-dot" title="Monday">M</span>
+              <span class="streak-day-dot" title="Tuesday">T</span>
+              <span class="streak-day-dot" title="Wednesday">W</span>
+              <span class="streak-day-dot" title="Thursday">T</span>
+              <span class="streak-day-dot" title="Friday">F</span>
+              <span class="streak-day-dot current" id="dotToday" title="Today (Saturday, Oct 17) - Upload pic to start streak">S</span>
+              <span class="streak-day-dot" title="Sunday">S</span>
+            </div>
+          </div>
+
+          <button class="streak-cta-action-btn" id="btnStreakUploadCTA">
+            <span>Upload First Study Pic</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </article>
+
+        <!-- Responsive Dashboard Grid -->
+        <div class="dashboard-grid-layout">
+          
+          <!-- Column 1 (Left / Primary Work Area) -->
+          <div class="dashboard-col-primary">
+            
+            <!-- Daily Inspiration Card (2nd place of Home Screen) -->
+            <article class="motivation-card" id="motivationCard">
+              <div class="motivation-lamp-container">
+                <div class="desk-lamp-svg">
+                  <!-- Cute Desk Lamp SVG -->
+                  <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
+                    <ellipse cx="18" cy="31" rx="8" ry="2.5" fill="#94A3B8"/>
+                    <path d="M18 31V21C18 18 22 16 23 13" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M25 11L17 7L13 15L23 17L25 11Z" fill="#FBBF24" stroke="#D97706" stroke-width="1.5"/>
+                    <path d="M12 17L6 28M24 19L29 28" stroke="#FDE68A" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"/>
+                    <circle cx="18" cy="14" r="3" fill="#FFFBEB"/>
+                  </svg>
+                </div>
+                <span class="lamp-warm-beam"></span>
+              </div>
+
+              <div class="motivation-text-group">
+                <div class="motivation-header-flex">
+                  <span class="motivation-tag">Daily Inspiration</span>
+                  <button class="shuffle-quote-btn" id="btnShuffleQuote" title="Next Inspirational Quote">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                    Shuffle
+                  </button>
+                </div>
+                <blockquote class="motivation-quote" id="motivationQuoteText">
+                  "The expert in anything was once a beginner."
+                </blockquote>
+                <div class="quote-actions">
+                  <button class="quote-action-btn" id="btnSpeakQuote" title="Read Aloud">🔊 Listen</button>
+                  <button class="quote-action-btn" id="btnCopyQuote" title="Copy Quote">📋 Copy</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- October Calendar Widget with Striken-Off Days -->
+            <article class="calendar-widget-card" id="calendarCard">
+              <div class="calendar-header-row">
+                <div class="calendar-title-group">
+                  <h2 class="calendar-card-title" id="calendarTitle">October 2026 Calendar</h2>
+                  <span class="calendar-sub-legend" id="calendarSubLegend">Upload study pic to strike off today <s>17</s></span>
+                </div>
+                <div class="calendar-nav-buttons">
+                  <button class="cal-nav-btn" id="calPrevBtn" aria-label="Previous Month">‹</button>
+                  <button class="cal-nav-btn" id="calNextBtn" aria-label="Next Month">›</button>
+                </div>
+              </div>
+
+              <!-- Calendar Days Header -->
+              <div class="calendar-weekdays-row">
+                <span class="weekday-col label-oct">Oct</span>
+                <span class="weekday-col">Mon</span>
+                <span class="weekday-col">Tue</span>
+                <span class="weekday-col">Wed</span>
+                <span class="weekday-col">Thu</span>
+                <span class="weekday-col">Fri</span>
+                <span class="weekday-col">Sat</span>
+              </div>
+
+              <!-- Calendar Days Grid (Completed days striken off) -->
+              <div class="calendar-grid" id="calendarGrid">
+                <!-- Day cells injected dynamically with strike-off markings -->
+              </div>
+
+              <!-- Quick Day Preview Expandable Drawer -->
+              <div class="day-study-preview" id="dayStudyPreview">
+                <div class="day-preview-header">
+                  <span class="day-preview-date" id="previewDateLabel">October 17 • Study Sessions</span>
+                  <button class="day-preview-close" id="closeDayPreview">✕</button>
+                </div>
+                <div class="day-preview-sessions" id="dayPreviewList">
+                  <!-- Sessions injected via JS -->
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Column 2 (Right / Side Widgets on Desktop) -->
+          <div class="dashboard-col-sidebar">
+            
+            <!-- Focus & Pomodoro Timer Card -->
+            <article class="focus-timer-card" id="focusTimerCard">
+              <div class="focus-timer-header">
+                <div class="timer-badge">
+                  <span class="pulse-indicator"></span>
+                  <span>Deep Study Focus</span>
+                </div>
+                <span class="timer-subject">Cellular Biology</span>
+              </div>
+
+              <div class="timer-display-wrap">
+                <div class="timer-hero-text" id="dashboardTimerText">25:00</div>
+                <p class="timer-subtext" id="timerSubtext">Ready for focus block</p>
+              </div>
+
+              <div class="timer-controls-row">
+                <button class="timer-ctrl-btn primary" id="btnDashboardTimerToggle">
+                  <span id="timerPlayIcon">▶ Start Focus</span>
+                </button>
+                <button class="timer-ctrl-btn secondary" id="btnDashboardTimerReset">
+                  🔄 Reset
+                </button>
+              </div>
+            </article>
+
+            <!-- Upcoming Deadlines & Daily Focus Checklist -->
+            <article class="deadlines-card-widget">
+              <div class="widget-header-row">
+                <h3 class="widget-title">Upcoming Deadlines</h3>
+                <span class="badge-mini" id="badgeDeadlinesCount">0 Upcoming</span>
+              </div>
+
+              <div class="deadlines-mini-list" id="dashboardDeadlinesList">
+                <div class="deadline-mini-item" style="background: rgba(255, 255, 255, 0.4); justify-content: center; padding: 12px;">
+                  <span style="font-size: 12px; color: var(--text-secondary); text-align: center;">No deadlines due soon • Schedule is clear ✨</span>
+                </div>
+              </div>
+
+              <div class="focus-checklist-section">
+                <div class="widget-header-row" style="margin-top: 12px;">
+                  <h4 class="widget-sub-title">Today's Study Checklist</h4>
+                  <span class="checklist-progress" id="checklistProgressText">0/4 Done</span>
+                </div>
+                <div class="mini-checklist" id="dashboardMiniChecklist">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+        </div>
+
+        <div class="scroll-bottom-spacer"></div>
+      </section>
+
+      <!-- ================= TAB 2: CALENDAR & PLANNER ================= -->
+      <section class="tab-page" id="tabSchedule">
+        <div class="tab-header-banner">
+          <div>
+            <h2 class="tab-hero-title">Academic Schedule & Planner</h2>
+            <p class="tab-hero-sub">Plan your study sessions, track exam deadlines, and pace your learning</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="header-action-btn" id="btnNewStudyBlock">+ Add Focus Block</button>
+            <button class="header-action-btn secondary" id="btnResetPlanner" style="background: rgba(0,0,0,0.06); color: var(--text-heading);">🔄 Reset Planner</button>
+          </div>
+        </div>
+
+        <div class="schedule-grid-wrap">
+          <div class="upcoming-deadlines-section">
+            <div class="section-header-flex" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <h3 class="section-subheading" style="margin-bottom: 0;">Upcoming Deadlines & Milestones</h3>
+              <button class="header-action-btn-sm" id="btnAddMilestone">+ Add Milestone</button>
+            </div>
+            <div class="upcoming-deadlines" id="tabDeadlinesList">
+              <!-- Rendered dynamically via JS -->
+            </div>
+          </div>
+
+          <div class="schedule-block-container">
+            <h3 class="section-subheading">Today's Focus Schedule</h3>
+            <div class="schedule-item-list" id="scheduleList">
+              <!-- Schedule items injected via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: ANALYTICS & INSIGHTS ================= -->
+      <section class="tab-page" id="tabAnalytics">
+        <div class="tab-header-banner">
+          <div>
+            <h2 class="tab-hero-title">Study Insights & Focus Trends</h2>
+            <p class="tab-hero-sub">Track daily productivity, study time distribution, and mastery metrics</p>
+          </div>
+          <span class="efficiency-pill">🔥 94% Focus Score</span>
+        </div>
+
+        <div class="analytics-grid-wrap">
+          <!-- Weekly Study Hours Chart -->
+          <div class="analytics-stat-card">
+            <div class="stat-header">
+              <div>
+                <span class="stat-label">Total Time This Week</span>
+                <h3 class="stat-hero-number" id="analyticsTotalHours">0h 00m</h3>
+              </div>
+              <span class="stat-delta" id="analyticsDelta" style="background: rgba(59, 130, 246, 0.12); color: #2563EB;">New Week • Ready to Start</span>
+            </div>
+
+            <!-- CSS Bar Chart -->
+            <div class="weekly-bar-chart" id="weeklyBarChart">
+              <div class="chart-col"><div class="chart-bar" style="--height: 4%;"><span class="bar-val">0h</span></div><span class="col-day">M</span></div>
+              <div class="chart-col"><div class="chart-bar" style="--height: 4%;"><span class="bar-val">0h</span></div><span class="col-day">T</span></div>
+              <div class="chart-col"><div class="chart-bar" style="--height: 4%;"><span class="bar-val">0h</span></div><span class="col-day">W</span></div>
+              <div class="chart-col"><div class="chart-bar" style="--height: 4%;"><span class="bar-val">0h</span></div><span class="col-day">T</span></div>
+              <div class="chart-col"><div class="chart-bar" style="--height: 4%;"><span class="bar-val">0h</span></div><span class="col-day">F</span></div>
+              <div class="chart-col active"><div class="chart-bar highlight" style="--height: 4%;"><span class="bar-val">0h</span></div><span class="col-day">S</span></div>
+              <div class="chart-col"><div class="chart-bar" style="--height: 4%;"><span class="bar-val">0h</span></div><span class="col-day">S</span></div>
+            </div>
+          </div>
+
+          <!-- Subject Distribution -->
+          <div class="subject-breakdown-card">
+            <h3 class="card-mini-title">Subject Focus Breakdown</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;" id="subjectBreakdownNote">0h total logged this week • Ready to record</p>
+            <div class="subject-progress-list" id="subjectProgressList">
+              <div class="subject-item">
+                <div class="subj-info"><span class="subj-name">🧬 Biology</span><span class="subj-hrs" id="hrsBio">0h (0%)</span></div>
+                <div class="subj-bar-track"><div class="subj-bar-fill" id="barBio" style="width: 0%; background: #3B82F6;"></div></div>
+              </div>
+              <div class="subject-item">
+                <div class="subj-info"><span class="subj-name">📐 Calculus & Math</span><span class="subj-hrs" id="hrsMath">0h (0%)</span></div>
+                <div class="subj-bar-track"><div class="subj-bar-fill" id="barMath" style="width: 0%; background: #10B981;"></div></div>
+              </div>
+              <div class="subject-item">
+                <div class="subj-info"><span class="subj-name">🧪 Organic Chemistry</span><span class="subj-hrs" id="hrsChem">0h (0%)</span></div>
+                <div class="subj-bar-track"><div class="subj-bar-fill" id="barChem" style="width: 0%; background: #F59E0B;"></div></div>
+              </div>
+              <div class="subject-item">
+                <div class="subj-info"><span class="subj-name">🏛️ Modern History</span><span class="subj-hrs" id="hrsHist">0h (0%)</span></div>
+                <div class="subj-bar-track"><div class="subj-bar-fill" id="barHist" style="width: 0%; background: #8B5CF6;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: PROFILE & SETTINGS ================= -->
+      <section class="tab-page" id="tabProfile">
+        <div class="tab-header-banner">
+          <div>
+            <h2 class="tab-hero-title">Student Profile & Achievements</h2>
+            <p class="tab-hero-sub">Alex Johnson • Pre-Med Track • Stanford 2027</p>
+          </div>
+        </div>
+
+        <div class="profile-grid-wrap">
+          <div class="profile-summary-card">
+            <div class="profile-pic-large">
+              <img src="assets/alex_avatar.jpg" alt="Student Profile Avatar" id="profileTabAvatar">
+              <button class="edit-badge-btn" id="btnChangeAvatar" title="Change Avatar Photo">📷</button>
+            </div>
+            <div class="profile-name-action-row" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px;">
+              <h3 class="profile-user-name" id="profileUserName">Alex Johnson</h3>
+              <button class="edit-profile-pill-btn" id="btnOpenEditProfile" title="Edit Profile Details">✏️ Edit</button>
+            </div>
+            <p class="profile-user-major" id="profileUserMajor" style="font-size: 13px; font-weight: 700; color: var(--primary-accent); margin: 2px 0 6px;">Pre-Med Track • Stanford 2027</p>
+            <p class="profile-user-bio" id="profileUserBio">Aiming for 3.9 GPA • Focused on Bio & Chem</p>
+
+            <div class="profile-stats-grid">
+              <div class="p-stat-box">
+                <span class="p-stat-num" id="profileStreakNum">0</span>
+                <span class="p-stat-lbl">Days Streak 🔥</span>
+              </div>
+              <div class="p-stat-box">
+                <span class="p-stat-num" id="profileNotesNum">0</span>
+                <span class="p-stat-lbl">Notes Scanned 📄</span>
+              </div>
+              <div class="p-stat-box">
+                <span class="p-stat-num" id="profileGpaNum">3.9 GPA</span>
+                <span class="p-stat-lbl">Target Goal 🎯</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-settings-col">
+            <!-- Account & Profile Actions Card -->
+            <div class="settings-card account-actions-card">
+              <h4 class="card-mini-title">Account & Profile Settings</h4>
+              <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 12px;">Manage your student credentials, bio, and study goals.</p>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn-account-action primary" id="btnEditProfileCard">✏️ Edit Profile Info</button>
+                <button class="btn-account-action secondary" id="btnProfileLogout">🚪 Sign Out / Switch Account</button>
+              </div>
+            </div>
+
+            <!-- Study Goal Slider -->
+            <div class="settings-card">
+              <div class="slider-row-header">
+                <span>Daily Study Target</span>
+                <strong id="targetHoursLabel">4.0 Hours/day</strong>
+              </div>
+              <input type="range" min="1" max="8" step="0.5" value="4" class="custom-range" id="goalHoursRange">
+            </div>
+
+            <!-- Study Badges Earned -->
+            <div class="badges-card">
+              <h4 class="card-mini-title">Unlocked Achievements</h4>
+              <div class="badge-icon-grid">
+                <div class="achievement-badge" title="14 Days Unbroken Streak">
+                  <span class="badge-emoji">🔥</span>
+                  <span class="badge-name">Momentum 14</span>
+                </div>
+                <div class="achievement-badge" title="Digitized over 100 pages">
+                  <span class="badge-emoji">⚡</span>
+                  <span class="badge-name">Scan Master</span>
+                </div>
+                <div class="achievement-badge" title="Over 20 Pomodoro Sessions">
+                  <span class="badge-emoji">🧠</span>
+                  <span class="badge-name">Deep Focus</span>
+                </div>
+                <div class="achievement-badge" title="Early Morning Study Routine">
+                  <span class="badge-emoji">🌅</span>
+                  <span class="badge-name">Dawn Scholar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= MOBILE FLOATING BOTTOM DOCK ================= -->
+    <!-- Displayed strictly on mobile viewports (< 860px) with Center Camera Button -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+      <!-- Tab 1: Home -->
+      <button class="nav-tab-item active" data-tab="tabHome" id="navHome" aria-label="Home">
+        <div class="tab-icon-wrapper home-pill">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+      </button>
+
+      <!-- Tab 2: Schedule -->
+      <button class="nav-tab-item" data-tab="tabSchedule" id="navSchedule" aria-label="Calendar">
+        <div class="tab-icon-wrapper">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <circle cx="12" cy="15" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+      </button>
+
+      <!-- CENTER CAMERA BUTTON -->
+      <div class="nav-center-action-wrapper">
+        <button class="nav-center-camera-btn" id="navCenterCamera" aria-label="Upload Study Pic to Continue Streak" title="Snap & Upload Study Pic">
+          <div class="center-camera-inner">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+          <span class="center-camera-pulse"></span>
+        </button>
+      </div>
+
+      <!-- Tab 3: Analytics -->
+      <button class="nav-tab-item" data-tab="tabAnalytics" id="navAnalytics" aria-label="Analytics">
+        <div class="tab-icon-wrapper">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+      </button>
+
+      <!-- Tab 4: Profile -->
+      <button class="nav-tab-item" data-tab="tabProfile" id="navProfile" aria-label="Profile">
+        <div class="tab-icon-wrapper">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- ================= MODAL: CAMERA STUDY PROOF & STREAK VERIFICATION ================= -->
+  <div class="app-modal-overlay" id="scannerModal">
+    <div class="modal-card-sheet">
+      <div class="sheet-drag-handle"></div>
+      
+      <div class="sheet-header">
+        <div class="sheet-title-group">
+          <span class="sheet-tag">Streak Verification & OCR</span>
+          <h3 class="sheet-title">Upload Study Proof</h3>
+        </div>
+        <button class="modal-close-btn" id="btnCloseScanner">✕</button>
+      </div>
+
+      <!-- Live Camera Viewfinder / Preview Stage -->
+      <div class="scanner-stage-container">
+        <!-- Viewfinder -->
+        <div class="scanner-viewfinder" id="scannerViewfinder">
+          <video id="webcamVideo" autoplay playsinline style="display:none; width:100%; height:100%; object-fit:cover;"></video>
+          <img src="assets/study_proof_sample.jpg" alt="Study Proof" class="scanned-image-preview" id="scannerImgPreview">
+          
+          <!-- Animated Laser Scanning Line -->
+          <div class="laser-scanner-beam" id="scannerLaser">
+            <span class="laser-glow"></span>
+          </div>
+
+          <!-- Optical Target Reticles -->
+          <div class="viewfinder-corner top-left"></div>
+          <div class="viewfinder-corner top-right"></div>
+          <div class="viewfinder-corner bottom-left"></div>
+          <div class="viewfinder-corner bottom-right"></div>
+
+          <!-- Detection Badges -->
+          <div class="ocr-tag tag-header" id="ocrDetectedTag">📸 Ready: Study Session Proof</div>
+          <div class="ocr-tag tag-diagram" id="ocrStreakBonusTag">🔥 Will extend streak to Day 15!</div>
+        </div>
+
+        <!-- Quick Sample Pickers -->
+        <div class="proof-sample-selector">
+          <span class="selector-label">Choose Study Pic:</span>
+          <button class="proof-sample-chip active" id="chipSampleDesk" data-src="assets/study_proof_sample.jpg">
+            📚 Study Desk & Notes
+          </button>
+          <button class="proof-sample-chip" id="chipSampleNotes" data-src="assets/sample_notes.jpg">
+            🧬 Biology Notes
+          </button>
+          <button class="proof-sample-chip" id="btnToggleWebcam">
+            📹 Live Webcam
+          </button>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="scanner-controls-bar">
+          <label class="scanner-btn-secondary upload-label" for="fileInputUpload">
+            📁 From Photos
+            <input type="file" id="fileInputUpload" accept="image/*" style="display:none;">
+          </label>
+          
+          <button class="scanner-capture-btn" id="btnCaptureDigitize">
+            <div class="shutter-circle-outer">
+              <div class="shutter-circle-inner"></div>
+            </div>
+            <span id="captureBtnLabel">Snap & Continue Streak!</span>
+          </button>
+
+          <button class="scanner-btn-secondary" id="btnSwitchCamera">
+            🔄 Flip
+          </button>
+        </div>
+      </div>
+
+      <!-- Digitized Result & Streak Success Panel -->
+      <div class="digitized-results-container" id="digitizedResults" style="display:none;">
+        <div class="streak-reward-banner">
+          <div class="streak-reward-flame">🔥</div>
+          <div class="streak-reward-details">
+            <h4 class="streak-reward-title" id="rewardTitle">STREAK STARTED: 1 DAY!</h4>
+            <p class="streak-reward-sub" id="rewardSub">Today's study proof accepted • Day 17 striken off in calendar!</p>
+          </div>
+        </div>
+
+        <div class="result-success-badge">
+          <span class="badge-icon">✓</span>
+          <span>Verified: 2h 15m Cellular Biology Study Proof Detected</span>
+        </div>
+
+        <div class="digitized-notes-content">
+          <h4 class="extracted-title">Extracted Study Summary & Notes</h4>
+          
+          <div class="extracted-section">
+            <h5>Core Topics Covered</h5>
+            <ul class="extracted-bullets">
+              <li><strong>Aerobic Respiration:</strong> Glycolysis → Link Reaction → Krebs Cycle → ETC.</li>
+              <li><strong>Mitochondrial Membrane:</strong> Outer smooth, inner highly folded cristae for ATP Synthase.</li>
+              <li><strong>Streak Bonus:</strong> +50 Focus XP added to your Pre-Med progress!</li>
+            </ul>
+          </div>
+
+          <!-- Flip Flashcard -->
+          <div class="extracted-flashcards">
+            <h5>Generated AI Flashcard (Tap to Flip)</h5>
+            <div class="flip-flashcard" id="demoFlashcard">
+              <div class="flashcard-face flashcard-front">
+                <span class="fc-badge">Study Flashcard</span>
+                <p class="fc-text">What is the net ATP output generated by the Electron Transport Chain?</p>
+                <span class="fc-hint">💡 Tap to reveal answer</span>
+              </div>
+              <div class="flashcard-face flashcard-back">
+                <span class="fc-badge answer">Verified Answer</span>
+                <p class="fc-text">Approximately 32 to 34 ATP molecules per glucose via chemiosmosis.</p>
+                <span class="fc-hint">✓ Tap to flip back</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-actions-bar">
+          <button class="action-btn-primary" id="btnSaveToLibrary">🔥 Save & Return to Dashboard</button>
+          <button class="action-btn-secondary" id="btnExportPDF">📤 Share Streak Proof</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ================= MODAL: EDIT USER PROFILE ================= -->
+  <div class="app-modal-overlay" id="editProfileModal">
+    <div class="modal-card-sheet edit-profile-sheet">
+      <div class="sheet-drag-handle"></div>
+      
+      <div class="sheet-header">
+        <div class="sheet-title-group">
+          <span class="sheet-tag">Student Information</span>
+          <h3 class="sheet-title">Edit Profile</h3>
+        </div>
+        <button class="modal-close-btn" id="btnCloseEditProfile">✕</button>
+      </div>
+
+      <form id="editProfileForm" class="edit-profile-form">
+        <!-- Avatar Chooser Section -->
+        <div class="edit-avatar-section">
+          <div class="active-avatar-preview-wrap">
+            <img src="assets/alex_avatar.jpg" alt="Selected Avatar" id="editAvatarPreview" class="edit-avatar-large">
+            <span class="avatar-ring"></span>
+          </div>
+          <div class="avatar-preset-picker">
+            <span class="picker-label">Choose Avatar Preset:</span>
+            <div class="avatar-preset-chips" id="avatarPresetChips">
+              <button type="button" class="preset-avatar-btn active" data-src="assets/alex_avatar.jpg">
+                <img src="assets/alex_avatar.jpg" alt="Alex">
+                <span>Alex</span>
+              </button>
+              <button type="button" class="preset-avatar-btn" data-src="assets/maya_avatar.jpg">
+                <img src="assets/maya_avatar.jpg" alt="Maya">
+                <span>Maya</span>
+              </button>
+              <button type="button" class="preset-avatar-btn" data-src="assets/leo_avatar.jpg">
+                <img src="assets/leo_avatar.jpg" alt="Leo">
+                <span>Leo</span>
+              </button>
+              <label class="custom-avatar-upload-btn" for="customAvatarInput" title="Upload Custom Photo">
+                <span>📷 Upload</span>
+                <input type="file" id="customAvatarInput" accept="image/*" style="display: none;">
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-Column Personal Details -->
+        <div class="form-grid-2col">
+          <div class="form-group">
+            <label for="editFullName" class="form-label">Full Name</label>
+            <input type="text" id="editFullName" class="form-input" placeholder="e.g. Alex Johnson" required>
+          </div>
+          <div class="form-group">
+            <label for="editStudentEmail" class="form-label">Student Email</label>
+            <input type="email" id="editStudentEmail" class="form-input" placeholder="e.g. alex@stanford.edu" required>
+          </div>
+        </div>
+
+        <!-- 2-Column Academic Focus -->
+        <div class="form-grid-2col">
+          <div class="form-group">
+            <label for="editUniversity" class="form-label">University / Institution</label>
+            <input type="text" id="editUniversity" class="form-input" placeholder="e.g. Stanford University" required>
+          </div>
+          <div class="form-group">
+            <label for="editGradYear" class="form-label">Graduation Class Year</label>
+            <input type="text" id="editGradYear" class="form-input" placeholder="e.g. 2027" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2col">
+          <div class="form-group">
+            <label for="editMajor" class="form-label">Academic Major / Track</label>
+            <input type="text" id="editMajor" class="form-input" placeholder="e.g. Pre-Med Track" required>
+          </div>
+          <div class="form-group">
+            <label for="editTargetGpa" class="form-label">Target GPA Goal</label>
+            <input type="text" id="editTargetGpa" class="form-input" placeholder="e.g. 3.9 GPA" required>
+          </div>
+        </div>
+
+        <!-- Daily Target Study Hours -->
+        <div class="form-group">
+          <div class="form-label-row">
+            <label for="editTargetHours" class="form-label">Daily Study Target</label>
+            <span class="range-val-badge" id="editTargetHoursDisplay">4.0 Hours/day</span>
+          </div>
+          <input type="range" id="editTargetHours" min="1" max="10" step="0.5" value="4" class="custom-range">
+        </div>
+
+        <!-- Bio / Philosophy -->
+        <div class="form-group">
+          <label for="editBio" class="form-label">Personal Bio / Study Philosophy</label>
+          <textarea id="editBio" class="form-textarea" rows="2" placeholder="e.g. Aiming for 3.9 GPA • Focused on Bio & Chem"></textarea>
+        </div>
+
+        <!-- Modal Controls -->
+        <div class="modal-actions-row">
+          <button type="button" class="modal-btn-cancel" id="btnCancelEditProfile">Cancel</button>
+          <button type="submit" class="modal-btn-save" id="btnSaveProfile">💾 Save Profile Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confetti Canvas Overlay for Celebrations -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- Toast Notification System -->
+  <div class="toast-notification" id="toastNotification">
+    <span class="toast-icon">✨</span>
+    <span class="toast-message" id="toastMessage">Notes digitized successfully!</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
